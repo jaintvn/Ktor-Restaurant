@@ -1,19 +1,16 @@
 package com.sample.plugins
 
+import com.sample.feature.auth.authRoutes
 import io.ktor.routing.*
-import io.ktor.http.*
 import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
+import io.ktor.locations.*
 
+/**
+ * Install [Locations] and configure all feature routes
+ */
 fun Application.configureRouting() {
-
-    // Starting point for a Ktor app:
+    install(Locations)
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-    }
-    routing {
+        authRoutes()
     }
 }

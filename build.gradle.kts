@@ -21,10 +21,13 @@ dependencies {
     implementation("io.ktor:ktor-auth:${Versions.ktor}")
     implementation("io.ktor:ktor-auth-jwt:${Versions.ktor}")
     implementation("ch.qos.logback:logback-classic:${Versions.logback}")
+    implementation("io.ktor:ktor-locations:${Versions.ktor}")
 
-    //koin
     implementation("io.insert-koin:koin-ktor:${Versions.koin}")
     implementation("io.insert-koin:koin-logger-slf4j:${Versions.koin}")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    implementation("org.litote.kmongo:kmongo-coroutine:${Versions.kmongo}")
+    implementation("org.valiktor:valiktor-core:${Versions.valiktor}")
+    implementation("commons-codec:commons-codec:${Versions.commons}")
+    implementation("ch.qos.logback:logback-classic:${Versions.logback}")
 }
