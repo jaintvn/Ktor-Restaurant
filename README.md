@@ -1,9 +1,7 @@
 
 # Ktor + MongoDB (WIP)
 
-Simple Ktor REST API project with MongoDB integration. Here it explain based on simple restaurant menu with order creation.
-
-
+Simple Ktor REST API project with MongoDB integration. Here, it shows a simple restaurant menu with order creation.
 
 
 ## Features
