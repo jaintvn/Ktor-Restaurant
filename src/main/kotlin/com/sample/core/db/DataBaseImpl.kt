@@ -1,5 +1,6 @@
 package com.sample.core.db
 
+import com.sample.feature.menu.MenuItem
 import com.sample.feature.user.User
 import org.litote.kmongo.coroutine.CoroutineClient
 import org.litote.kmongo.coroutine.CoroutineCollection
@@ -19,5 +20,8 @@ class DataBaseImpl(private val dataBaseName: String) : Database {
         get() = mongoClient.getDatabase(dbName)
 
     override val userCollection: CoroutineCollection<User>
+        get() = database.getCollection()
+
+    override val menuCollection: CoroutineCollection<MenuItem>
         get() = database.getCollection()
 }

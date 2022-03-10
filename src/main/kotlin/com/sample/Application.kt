@@ -1,16 +1,16 @@
 package com.sample
 
-import io.ktor.application.*
 import com.sample.plugins.*
+import io.ktor.application.*
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
-fun Application.module(testing: Boolean = false) {
+fun Application.module() {
     configureKoin()
-    configureRouting()
     configureLogging()
     configureSerialization()
     configureSecurity()
     configureStatusPages()
+    configureRouting()
 }

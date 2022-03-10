@@ -1,5 +1,6 @@
 package com.sample.core.db
 
+import com.sample.feature.menu.MenuItem
 import com.sample.feature.user.User
 import org.litote.kmongo.coroutine.CoroutineClient
 import org.litote.kmongo.coroutine.CoroutineCollection
@@ -10,4 +11,5 @@ interface Database {
     val mongoClient : CoroutineClient
     val database : CoroutineDatabase
     val userCollection : CoroutineCollection<User>
+    val menuCollection:CoroutineCollection<MenuItem>
 }
