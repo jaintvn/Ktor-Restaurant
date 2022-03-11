@@ -7,7 +7,7 @@ interface MenuRepository {
 
     suspend fun fetchAllMenuItems(): BaseResponse<Any>
 
-    suspend fun fetchMenuItemById(menuId: String): MenuItem?
+    suspend fun fetchMenuItemById(menuId: String?): BaseResponse<Any>
 
     suspend fun addMenuItem(menuItem: MenuItem, userId: String?): BaseResponse<Any>
 

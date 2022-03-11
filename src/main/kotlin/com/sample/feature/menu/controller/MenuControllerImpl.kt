@@ -1,7 +1,9 @@
 package com.sample.feature.menu.controller
 
 import com.sample.core.BaseResponse
+import com.sample.core.errohandler.MissingRequestBodyException
 import com.sample.feature.menu.MenuItem
+import com.sample.feature.menu.SingleMenuItem
 import com.sample.feature.menu.repository.MenuRepository
 import com.sample.feature.menu.validate
 import com.sample.util.acceptOrThrowException
@@ -26,5 +28,9 @@ class MenuControllerImpl(private val menuRepository: MenuRepository) : MenuContr
         val menu = request.call.acceptOrThrowException<MenuItem>("Menu Item body required")
         menu.validate()
         return menuRepository.addMenuItem(menu, request.getUserId())
+    }
+
+    override suspend fun fetchMenuItemById(request: SingleMenuItem?): BaseResponse<Any> {
+        return menuRepository.fetchMenuItemById(request?.menuId)
     }
 }

@@ -10,3 +10,6 @@ class CreateMenu
 @Location("v1/menus")
 class AllMenu
 
+@Location("v1/menu")
+data class SingleMenuItem(val menuId: String)
+
