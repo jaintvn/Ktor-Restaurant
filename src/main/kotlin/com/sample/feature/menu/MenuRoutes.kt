@@ -22,11 +22,17 @@ fun Application.menuRoutes() {
             call.respond(controller.fetchAllMenuItems(this))
         }
 
+        //Get single Menu ID by Id
+        get<SingleMenuItem>{ request->
+            call.respond(controller.fetchMenuItemById(request))
+        }
+
         authenticate {
             //Create new Menu item
             post<CreateMenu> {
                 call.respond(controller.addMenuItem(this))
             }
+
         }
     }
 }

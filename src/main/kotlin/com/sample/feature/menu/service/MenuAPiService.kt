@@ -6,7 +6,7 @@ interface MenuAPiService {
 
     suspend fun fetchAllMenuItems(): List<MenuItem>
 
-    suspend fun fetchMenuItemById(menuId: String): MenuItem?
+    suspend fun fetchMenuItemById(menuId: String?): MenuItem?
 
     suspend fun addMenuItem(menuItem: MenuItem, userId: String?): Boolean
 

@@ -3,6 +3,7 @@ package com.sample.feature.menu.repository
 import com.sample.core.BaseResponse
 import com.sample.core.errohandler.ExceptionHandler
 import com.sample.feature.auth.AuthErrors
+import com.sample.feature.menu.MenuErrors
 import com.sample.feature.menu.MenuItem
 import com.sample.feature.menu.service.MenuAPiService
 import io.ktor.http.*
@@ -18,8 +19,13 @@ class MenuRepositoryImpl(private val menuService: MenuAPiService, private val ex
         return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.OK, data = items)
     }
 
-    override suspend fun fetchMenuItemById(menuId: String): MenuItem? {
-        TODO("Not yet implemented")
+    override suspend fun fetchMenuItemById(menuId: String?): BaseResponse<Any> {
+        val menuItem = menuService.fetchMenuItemById(menuId)
+        if (menuItem != null) {
+            return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.OK, data = menuItem)
+        } else {
+            throw exceptionHandler.respondNotFoundException(MenuErrors.MENU_NOT_EXIST)
+        }
     }
 
     /**

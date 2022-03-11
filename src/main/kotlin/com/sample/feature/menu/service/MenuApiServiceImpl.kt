@@ -25,8 +25,8 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
         ).toList()
     }
 
-    override suspend fun fetchMenuItemById(menuId: String): MenuItem? {
-        TODO("Not yet implemented")
+    override suspend fun fetchMenuItemById(menuId: String?): MenuItem? {
+        return menuId?.let { database.menuCollection.findOneById(it) }
     }
 
     /**
