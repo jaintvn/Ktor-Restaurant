@@ -25,6 +25,9 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
         ).toList()
     }
 
+    /**
+     * To fetch single [MenuItem] using ID passed
+     */
     override suspend fun fetchMenuItemById(menuId: String?): MenuItem? {
         return menuId?.let { database.menuCollection.findOneById(it) }
     }
@@ -49,8 +52,12 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
         TODO("Not yet implemented")
     }
 
+    /**
+     * To delete [MenuItem] from db using menuID passed.
+     * @return status of delete operation
+     */
     override suspend fun deleteMenuItem(menuId: String): Boolean {
-        TODO("Not yet implemented")
+        return database.menuCollection.deleteOneById(menuId).wasAcknowledged()
     }
 
 }

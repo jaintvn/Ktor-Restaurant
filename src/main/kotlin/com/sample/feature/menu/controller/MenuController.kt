@@ -7,10 +7,12 @@ import io.ktor.util.pipeline.*
 
 interface MenuController {
 
-    suspend fun fetchAllMenuItems(request: PipelineContext<Unit, ApplicationCall>) : BaseResponse<Any>
+    suspend fun fetchAllMenuItems(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any>
 
-    suspend fun addMenuItem(request: PipelineContext<Unit, ApplicationCall>) : BaseResponse<Any>
+    suspend fun addMenuItem(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any>
 
     suspend fun fetchMenuItemById(request: SingleMenuItem?): BaseResponse<Any>
+
+    suspend fun deleteMenuItem(request: SingleMenuItem?): BaseResponse<Any>
 
 }
