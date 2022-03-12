@@ -45,8 +45,21 @@ class MenuRepositoryImpl(private val menuService: MenuAPiService, private val ex
         }
     }
 
-    override suspend fun updateMenuItem(menuItem: MenuItem, userId: String): Boolean {
-        TODO("Not yet implemented")
+    /**
+     * Update existing [MenuItem] in collection. It update only if data exist in collection.
+     * [menuItem] - Item to update
+     * [menuId] - menuID to update data
+     */
+    override suspend fun updateMenuItem(menuItem: MenuItem, menuId: String): BaseResponse<Any> {
+        if (isMenuItemExist(menuId)) {
+            if (menuService.updateMenuItem(menuItem, menuId)) {
+                return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.Created, data = true)
+            } else {
+                throw exceptionHandler.respondGenericException()
+            }
+        } else {
+            throw exceptionHandler.respondNotFoundException(MenuErrors.MENU_NOT_EXIST)
+        }
     }
 
     /**

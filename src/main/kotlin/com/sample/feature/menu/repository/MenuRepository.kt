@@ -11,7 +11,7 @@ interface MenuRepository {
 
     suspend fun addMenuItem(menuItem: MenuItem, userId: String?): BaseResponse<Any>
 
-    suspend fun updateMenuItem(menuItem: MenuItem, userId: String): Boolean
+    suspend fun updateMenuItem(menuItem: MenuItem, menuId: String): BaseResponse<Any>
 
     suspend fun deleteMenuItem(menuId: String): BaseResponse<Any>
 }

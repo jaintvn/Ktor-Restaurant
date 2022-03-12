@@ -15,4 +15,6 @@ interface MenuController {
 
     suspend fun deleteMenuItem(request: SingleMenuItem?): BaseResponse<Any>
 
+    suspend fun updateMenuItem(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any>
+
 }

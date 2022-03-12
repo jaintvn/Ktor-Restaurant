@@ -7,6 +7,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.locations.*
 import io.ktor.locations.post
+import io.ktor.locations.put
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
@@ -36,6 +37,11 @@ fun Application.menuRoutes() {
             //Delete menu item by ID
             delete<SingleMenuItem> { request ->
                 call.respond(controller.deleteMenuItem(request))
+            }
+
+            //Update menu item by ID and object passed
+            put<SingleMenuItem> {
+                call.respond(controller.updateMenuItem(this))
             }
         }
     }

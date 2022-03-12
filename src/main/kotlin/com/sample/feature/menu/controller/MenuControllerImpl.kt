@@ -6,6 +6,7 @@ import com.sample.feature.menu.MenuItem
 import com.sample.feature.menu.SingleMenuItem
 import com.sample.feature.menu.repository.MenuRepository
 import com.sample.feature.menu.validate
+import com.sample.feature.menu.validateUpdate
 import com.sample.util.acceptOrThrowException
 import com.sample.util.getUserId
 import io.ktor.application.*
@@ -44,6 +45,19 @@ class MenuControllerImpl(private val menuRepository: MenuRepository) : MenuContr
     override suspend fun deleteMenuItem(request: SingleMenuItem?): BaseResponse<Any> {
         if (request != null && (request.menuId?.isBlank() == false)) {
             return menuRepository.deleteMenuItem(request.menuId)
+        } else throw MissingRequestBodyException("Invalid menu id")
+    }
+
+    /**
+     * Update single [MenuItem] from collection
+     * Return status of updation
+     */
+    override suspend fun updateMenuItem(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any> {
+        val menu = request.call.acceptOrThrowException<MenuItem>("Menu Item body required")
+        menu.validateUpdate()
+        val menuId = request.call.parameters["menuId"]
+        if (!menuId.isNullOrBlank()) {
+            return menuRepository.updateMenuItem(menu, menuId)
         } else throw MissingRequestBodyException("Invalid menu id")
     }
 }

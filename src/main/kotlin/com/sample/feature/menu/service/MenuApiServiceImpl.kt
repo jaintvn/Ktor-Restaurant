@@ -48,8 +48,21 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
         return database.menuCollection.insertOne(menuToInsert).wasAcknowledged()
     }
 
-    override suspend fun updateMenuItem(menuItem: MenuItem, userId: String): Boolean {
-        TODO("Not yet implemented")
+    /**
+     * Update existing [MenuItem] in collection
+     * [menuItem] - Item to update
+     * [menuId] - menuID to update data
+     */
+    override suspend fun updateMenuItem(menuItem: MenuItem, menuId: String): Boolean {
+        val menuToInsert = MenuItem(
+            menuId = menuId,
+            name = menuItem.name,
+            imageUrl = menuItem.imageUrl,
+            description = menuItem.description,
+            updatedAt = Date().toInstant().toString()
+        )
+        return database.menuCollection.updateOneById(menuId, menuToInsert, updateOnlyNotNullProperties = true)
+            .wasAcknowledged()
     }
 
     /**
