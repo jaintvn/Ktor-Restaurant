@@ -23,7 +23,7 @@ fun Application.menuRoutes() {
         }
 
         //Get single Menu ID by Id
-        get<SingleMenuItem>{ request->
+        get<SingleMenuItem> { request ->
             call.respond(controller.fetchMenuItemById(request))
         }
 
@@ -33,6 +33,10 @@ fun Application.menuRoutes() {
                 call.respond(controller.addMenuItem(this))
             }
 
+            //Delete menu item by ID
+            delete<SingleMenuItem> { request ->
+                call.respond(controller.deleteMenuItem(request))
+            }
         }
     }
 }

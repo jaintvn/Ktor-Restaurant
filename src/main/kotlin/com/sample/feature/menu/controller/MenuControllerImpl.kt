@@ -30,7 +30,20 @@ class MenuControllerImpl(private val menuRepository: MenuRepository) : MenuContr
         return menuRepository.addMenuItem(menu, request.getUserId())
     }
 
+    /**
+     * Fetch Single [MenuItem] using ID
+     */
     override suspend fun fetchMenuItemById(request: SingleMenuItem?): BaseResponse<Any> {
         return menuRepository.fetchMenuItemById(request?.menuId)
+    }
+
+    /**
+     * Delete single [MenuItem] from database.
+     * Returns status of operation
+     */
+    override suspend fun deleteMenuItem(request: SingleMenuItem?): BaseResponse<Any> {
+        if (request != null && (request.menuId?.isBlank() == false)) {
+            return menuRepository.deleteMenuItem(request.menuId)
+        } else throw MissingRequestBodyException("Invalid menu id")
     }
 }

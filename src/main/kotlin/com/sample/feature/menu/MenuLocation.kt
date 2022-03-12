@@ -11,5 +11,5 @@ class CreateMenu
 class AllMenu
 
 @Location("v1/menu")
-data class SingleMenuItem(val menuId: String)
+data class SingleMenuItem(val menuId: String?)
 
