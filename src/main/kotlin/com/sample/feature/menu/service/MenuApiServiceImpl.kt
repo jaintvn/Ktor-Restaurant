@@ -30,8 +30,8 @@ class MenuApiServiceImpl(private val database: Database) :
     /**
      * To fetch single [MenuItem] using ID passed
      */
-    override suspend fun fetchMenuItemById(menuId: String?): MenuItem? {
-        return menuId?.let { database.menuCollection.findOneById(it) }
+    override suspend fun fetchMenuItemById(menuId: String): MenuItem? {
+        return database.menuCollection.findOneById(menuId)
     }
 
     /**
@@ -39,7 +39,7 @@ class MenuApiServiceImpl(private val database: Database) :
      * [menuItem] - Item to add
      * [userId] - ID of created user
      */
-    override suspend fun addMenuItem(menuItem: MenuItem, userId: String?): Boolean {
+    override suspend fun addMenuItem(menuItem: MenuItem, userId: String): Boolean {
         return database.menuCollection.insertOne(mapMenuDbInsert(menuItem, userId)).wasAcknowledged()
     }
 
