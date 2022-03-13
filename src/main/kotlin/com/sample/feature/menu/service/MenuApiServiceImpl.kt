@@ -5,13 +5,15 @@ import com.mongodb.client.model.Aggregates.sort
 import com.mongodb.client.model.Projections.fields
 import com.sample.core.db.Database
 import com.sample.feature.menu.MenuItem
+import com.sample.feature.menu.mapMenuDbInsert
+import com.sample.feature.menu.mapMenuDbUpdate
 import org.bson.conversions.Bson
 import org.litote.kmongo.coroutine.aggregate
 import org.litote.kmongo.descending
 import org.litote.kmongo.exclude
-import java.util.*
 
-class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
+class MenuApiServiceImpl(private val database: Database) :
+    MenuAPiService {
 
     /**
      * Fetch all menu items from menuCollection. Set order as last created [MenuItem] comes first
@@ -28,8 +30,8 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
     /**
      * To fetch single [MenuItem] using ID passed
      */
-    override suspend fun fetchMenuItemById(menuId: String?): MenuItem? {
-        return menuId?.let { database.menuCollection.findOneById(it) }
+    override suspend fun fetchMenuItemById(menuId: String): MenuItem? {
+        return database.menuCollection.findOneById(menuId)
     }
 
     /**
@@ -37,15 +39,8 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
      * [menuItem] - Item to add
      * [userId] - ID of created user
      */
-    override suspend fun addMenuItem(menuItem: MenuItem, userId: String?): Boolean {
-        val menuToInsert = MenuItem(
-            name = menuItem.name,
-            imageUrl = menuItem.imageUrl,
-            description = menuItem.description,
-            createdAt = Date().toInstant().toString(),
-            createdBy = userId
-        )
-        return database.menuCollection.insertOne(menuToInsert).wasAcknowledged()
+    override suspend fun addMenuItem(menuItem: MenuItem, userId: String): Boolean {
+        return database.menuCollection.insertOne(mapMenuDbInsert(menuItem, userId)).wasAcknowledged()
     }
 
     /**
@@ -54,15 +49,11 @@ class MenuApiServiceImpl(private val database: Database) : MenuAPiService {
      * [menuId] - menuID to update data
      */
     override suspend fun updateMenuItem(menuItem: MenuItem, menuId: String): Boolean {
-        val menuToInsert = MenuItem(
-            menuId = menuId,
-            name = menuItem.name,
-            imageUrl = menuItem.imageUrl,
-            description = menuItem.description,
-            updatedAt = Date().toInstant().toString()
-        )
-        return database.menuCollection.updateOneById(menuId, menuToInsert, updateOnlyNotNullProperties = true)
-            .wasAcknowledged()
+        return database.menuCollection.updateOneById(
+            menuId,
+            mapMenuDbUpdate(menuItem, menuId),
+            updateOnlyNotNullProperties = true
+        ).wasAcknowledged()
     }
 
     /**

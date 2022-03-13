@@ -1,6 +1,7 @@
 package com.sample.feature.menu.controller
 
 import com.sample.core.BaseResponse
+import com.sample.core.errohandler.AuthenticationException
 import com.sample.core.errohandler.MissingRequestBodyException
 import com.sample.feature.menu.MenuItem
 import com.sample.feature.menu.SingleMenuItem
@@ -28,14 +29,18 @@ class MenuControllerImpl(private val menuRepository: MenuRepository) : MenuContr
     override suspend fun addMenuItem(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any> {
         val menu = request.call.acceptOrThrowException<MenuItem>("Menu Item body required")
         menu.validate()
-        return menuRepository.addMenuItem(menu, request.getUserId())
+        request.getUserId()?.let {
+            return menuRepository.addMenuItem(menu, it)
+        } ?: run { throw AuthenticationException("User ID  not found!") }
     }
 
     /**
      * Fetch Single [MenuItem] using ID
      */
     override suspend fun fetchMenuItemById(request: SingleMenuItem?): BaseResponse<Any> {
-        return menuRepository.fetchMenuItemById(request?.menuId)
+        if (request != null && (request.menuId?.isBlank() == false)) {
+            return menuRepository.fetchMenuItemById(request.menuId)
+        } else throw MissingRequestBodyException("Invalid menu id")
     }
 
     /**
