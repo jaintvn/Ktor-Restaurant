@@ -21,4 +21,4 @@ Simple Ktor REST API project with MongoDB integration. Here, it shows a simple r
 ## Modules
 - Login and Register User
 - Menu item creation and listing
-- Order creation (WIP)
+- Order creation
