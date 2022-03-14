@@ -11,6 +11,7 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.coroutine.aggregate
 import org.litote.kmongo.descending
 import org.litote.kmongo.exclude
+import org.litote.kmongo.util.KMongoUtil
 
 class MenuApiServiceImpl(private val database: Database) :
     MenuAPiService {
@@ -64,4 +65,14 @@ class MenuApiServiceImpl(private val database: Database) :
         return database.menuCollection.deleteOneById(menuId).wasAcknowledged()
     }
 
+    /**
+     * Create List<MenuItems> based on list of Ids passed
+     */
+    override suspend fun populateBasedOnIds(menuIds: List<String>): List<MenuItem> {
+        val fields = fields(exclude(MenuItem::createdBy, MenuItem::updatedAt))
+        val filter = "{_id : {\$in: $menuIds}}"
+        return database.menuCollection.findAndCast<MenuItem>(KMongoUtil.toBson(filter))
+            .projection(fields)
+            .toList()
+    }
 }

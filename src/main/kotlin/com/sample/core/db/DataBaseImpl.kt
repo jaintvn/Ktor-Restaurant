@@ -1,6 +1,7 @@
 package com.sample.core.db
 
 import com.sample.feature.menu.MenuItem
+import com.sample.feature.order.models.Order
 import com.sample.feature.user.User
 import org.litote.kmongo.coroutine.CoroutineClient
 import org.litote.kmongo.coroutine.CoroutineCollection
@@ -23,5 +24,8 @@ class DataBaseImpl(private val dataBaseName: String) : Database {
         get() = database.getCollection()
 
     override val menuCollection: CoroutineCollection<MenuItem>
+        get() = database.getCollection()
+
+    override val orderCollection: CoroutineCollection<Order>
         get() = database.getCollection()
 }

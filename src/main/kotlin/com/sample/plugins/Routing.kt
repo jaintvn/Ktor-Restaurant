@@ -2,6 +2,7 @@ package com.sample.plugins
 
 import com.sample.feature.auth.authRoutes
 import com.sample.feature.menu.menuRoutes
+import com.sample.feature.order.orderRoutes
 import io.ktor.application.*
 import io.ktor.locations.*
 import io.ktor.routing.*
@@ -14,5 +15,6 @@ fun Application.configureRouting() {
     routing {
         authRoutes()
         menuRoutes()
+        orderRoutes()
     }
 }
