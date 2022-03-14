@@ -13,4 +13,6 @@ interface MenuAPiService {
     suspend fun updateMenuItem(menuItem: MenuItem, menuId: String): Boolean
 
     suspend fun deleteMenuItem(menuId: String): Boolean
+
+    suspend fun populateBasedOnIds(menuIds: List<String>): List<MenuItem>
 }
