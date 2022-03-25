@@ -15,10 +15,17 @@ interface OrderApiService {
     /**
      * Get single order item from db
      */
-    suspend fun findOrderByID(orderId: String): OrderResponse?
+    suspend fun findOrder(orderId: String): OrderResponse?
 
     /**
      * To fetch all orders from db
      */
     suspend fun fetchAllOrders(): List<OrderResponse>
+
+    /**
+     * Set order complete status to TRUE/ FALSE
+     * [orderId] : Order to update status
+     * [isCompleted] : status to update
+     */
+    suspend fun setOrderCompleteStatus(orderId: String, isCompleted: Boolean): Boolean
 }

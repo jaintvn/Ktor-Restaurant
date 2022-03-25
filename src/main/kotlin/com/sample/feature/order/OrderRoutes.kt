@@ -7,6 +7,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.locations.*
 import io.ktor.locations.post
+import io.ktor.locations.put
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
@@ -32,6 +33,10 @@ fun Application.orderRoutes() {
             //Create new order
             post<Order> {
                 call.respond(orderController.createOrder(this))
+            }
+
+            put<OrderStatus> {
+                call.respond(orderController.setOrderCompleteStatus(this))
             }
         }
     }

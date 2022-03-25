@@ -21,7 +21,7 @@ class OrderRepositoryImpl(private val orderService: OrderApiService, private val
     }
 
     override suspend fun findOrderByID(orderId: String): BaseResponse<Any> {
-        orderService.findOrderByID(orderId)?.let {
+        orderService.findOrder(orderId)?.let {
             return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.OK, data = it)
         } ?: run { throw errorHandler.respondNotFoundException(OrderErrors.ORDER_NOT_EXIST) }
     }
@@ -30,4 +30,13 @@ class OrderRepositoryImpl(private val orderService: OrderApiService, private val
         val orders = orderService.fetchAllOrders()
         return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.OK, data = orders)
     }
+
+    override suspend fun setOrderCompleteStatus(orderId: String, isCompleted: Boolean): BaseResponse<Any> {
+        if (isOrderExist(orderId)) {
+            val response = orderService.setOrderCompleteStatus(orderId, isCompleted)
+            return BaseResponse.SuccessResponse(statusCode = HttpStatusCode.OK, data = response)
+        } else throw errorHandler.respondNotFoundException(OrderErrors.ORDER_NOT_EXIST)
+    }
+
+    private suspend fun isOrderExist(orderId: String) = orderService.findOrder(orderId) != null
 }
