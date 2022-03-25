@@ -4,6 +4,7 @@ import com.sample.core.BaseResponse
 import com.sample.core.errohandler.ExceptionHandler
 import com.sample.feature.order.SingleOrder
 import com.sample.feature.order.models.OrderRequest
+import com.sample.feature.order.models.OrderStatusRequest
 import com.sample.feature.order.repository.OrderRepository
 import com.sample.feature.order.validate
 import com.sample.util.acceptOrThrowException
@@ -30,6 +31,12 @@ class OrderControllerImpl(private val orderRepository: OrderRepository, private 
 
     override suspend fun fetchAllOrders(): BaseResponse<Any> {
         return orderRepository.fetchAllOrders()
+    }
+
+    override suspend fun setOrderCompleteStatus(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any> {
+        val statusRequest = request.call.acceptOrThrowException<OrderStatusRequest>("Order body required")
+        statusRequest.validate()
+        return orderRepository.setOrderCompleteStatus(statusRequest.orderId, statusRequest.status)
     }
 
 }

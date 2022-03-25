@@ -10,6 +10,7 @@ import com.sample.feature.order.models.OrderRequest
 import com.sample.feature.order.models.OrderResponse
 import org.litote.kmongo.coroutine.aggregate
 import org.litote.kmongo.descending
+import java.util.*
 
 class OrderApiServiceImpl(private val database: Database, private val menuService: MenuAPiService) : OrderApiService {
 
@@ -20,8 +21,8 @@ class OrderApiServiceImpl(private val database: Database, private val menuServic
         } else null
     }
 
-    override suspend fun findOrderByID(orderId: String): OrderResponse? {
-        val order = database.orderCollection.findOneById(orderId)
+    override suspend fun findOrder(orderId: String): OrderResponse? {
+        val order = findOrderById(orderId)
         order?.let {
             return mapOrderResponse(order, order.items)
         } ?: return null
@@ -34,6 +35,22 @@ class OrderApiServiceImpl(private val database: Database, private val menuServic
         return orders.map {
             mapOrderResponse(it, it.items)
         }
+    }
+
+    override suspend fun setOrderCompleteStatus(orderId: String, isCompleted: Boolean): Boolean {
+        val order = findOrderById(orderId)
+        val updatedOrder = order?.copy(
+            isCompleted = isCompleted,
+            updatedAt = Date().toInstant().toString()
+        )
+        updatedOrder?.let {
+            return database.orderCollection.updateOneById(orderId, updatedOrder, updateOnlyNotNullProperties = true)
+                .wasAcknowledged()
+        } ?: return false
+    }
+
+    private suspend fun findOrderById(orderId: String): Order? {
+        return database.orderCollection.findOneById(orderId)
     }
 
 }

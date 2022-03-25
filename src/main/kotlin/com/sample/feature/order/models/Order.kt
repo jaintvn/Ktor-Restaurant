@@ -13,4 +13,5 @@ data class Order(
     val createdBy: String? = null,
     val createdAt: String? = null,
     val updatedAt: String? = null,
+    val isCompleted: Boolean = false
 )

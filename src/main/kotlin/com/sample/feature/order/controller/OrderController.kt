@@ -21,4 +21,9 @@ interface OrderController {
      * Fetch all orders
      */
     suspend fun fetchAllOrders(): BaseResponse<Any>
+
+    /**
+     * Set order complete status to TRUE / FALSE
+     */
+    suspend fun setOrderCompleteStatus(request: PipelineContext<Unit, ApplicationCall>): BaseResponse<Any>
 }

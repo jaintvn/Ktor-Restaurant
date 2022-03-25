@@ -21,4 +21,11 @@ interface OrderRepository {
      * Fetch all orders
      */
     suspend fun fetchAllOrders(): BaseResponse<Any>
+
+    /**
+     * Set order complete status to TRUE/ FALSE
+     * [orderId] : Order to update status
+     * [isCompleted] : status to update
+     */
+    suspend fun setOrderCompleteStatus(orderId: String, isCompleted: Boolean): BaseResponse<Any>
 }
